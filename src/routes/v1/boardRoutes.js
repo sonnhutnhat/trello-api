@@ -3,19 +3,18 @@
  * YouTube: https://youtube.com/@trungquandev
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
-
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { boardRouters } from './boardRoutes'
 
 const Router = express.Router()
 
-/* Check APIs v1/status*/
-Router.get('/status', (req, res) => {
-  res.status(StatusCodes.OK).json({ message: 'APIs V1 ready to use' })
-})
+Router.route('/')
+  .get((req, res) => {
+    res.status(StatusCodes.OK).json({ message: 'APIs get list boards' })
+  })
+  .post((req, res) => {
+    res.status(StatusCodes.CREATED).json({ message: 'APIs create new board' })
+  })
 
-/* Board APIs*/
-Router.use('/board', boardRouters)
 
-export const APIs_V1 = Router
+export const boardRouters = Router

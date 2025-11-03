@@ -20,11 +20,20 @@ const createNew = async (req, res, next) => {
 
     // Có kết quả thì trả về phía client
     res.status(StatusCodes.CREATED).json(createdBoard)
-  } catch (error) {
-    next(error)
-  }
+  } catch (error) { next(error) }
+}
+
+const getDetails = async (req, res, next) => {
+  try {
+    const boardID = req.params.id
+
+    // Sau này ở khóa MERN Stack Advance nâng cao học trực tiếp sẽ có thêm userId nữa để chỉ lấy board thuộc về user đó thôi ...
+    const board = await boardService.getDetails(boardID)
+    res.status(StatusCodes.OK).json(board)
+  } catch (error) { next(error) }
 }
 
 export const boardController = {
-  createNew
+  createNew,
+  getDetails
 }

@@ -7,6 +7,8 @@
 
 import { slugify } from '~/utils/formatters'
 import { boardModel } from '~/models/boardModel'
+import ApiError from '~/utils/ApiError'
+import { StatusCodes } from 'http-status-codes'
 
 const createNew = async (reqBody) => {
   try {
@@ -29,9 +31,21 @@ const createNew = async (reqBody) => {
 
     // Trả kết quả về, trong Service luôn phải return
     return getNewBoard
-  } catch (error) {
-    throw error
-  }
+  } catch (error) { throw error }
 }
 
-export const boardService = { createNew }
+const getDetails = async (boardID) => {
+  try {
+    const board = await boardModel.getDetails(boardID)
+    if (!board) {
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found!')
+    }
+
+    return board
+  } catch (error) { throw error }
+}
+
+export const boardService = {
+  createNew,
+  getDetails
+}
